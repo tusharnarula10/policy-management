@@ -33,6 +33,7 @@ import Icons from "views/Icons/Icons.js";
 import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
+import PolicyPage from "views/Policy/createPolicyPage";
 // core components/views for RTL layout
 import RTLPage from "views/RTLPage/RTLPage.js";
 
@@ -43,6 +44,14 @@ const dashboardRoutes = [
     rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: DashboardPage,
+    layout: "/admin"
+  },
+  {
+    path: "/createPolicy",
+    name: "Create Policy",
+    rtlName: "لوحة القيادة",
+    icon: Dashboard,
+    component: PolicyPage,
     layout: "/admin"
   },
   {
