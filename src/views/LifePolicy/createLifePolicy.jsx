@@ -22,11 +22,35 @@ const useStyles = makeStyles(styles);
 
 export default function CreateLifePolicy() {
   const classes = useStyles();
+  const [customerName, setName] = React.useState("");
+  const [mobileNumber, setMobileNumber] = React.useState();
+  const [selectedDate, setDate] = React.useState(new Date());
+  const [installmentPremium, setInstallmentPremium] = React.useState();
+  const [paymentMode, setPaymentMode] = React.useState();
+  const [plan, setPlan] = React.useState();
+  const [gst, setGst] = React.useState();
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  }
+  const handleMobileChange = (e) => {
+    if (e.target.value > 0) {
+      setMobileNumber(e.target.value);
+    }
+  }
+  const handleInstallmentPremiumChange = (e) => {
+    if (e.target.value > 0) {
+      setInstallmentPremium(e.target.value);
+    }
+  }
+  const handlePaymentModeChange = (e) => {
+    setPaymentMode(e.target.value);
+  }
+
   return (
     <>
       <Paper className={classes.outerPaper}>
-        <div className={classes.elementDiv}>
-          <Typography variant="h5">
+        <div>
+          <Typography className={classes.paperTitle} align="left" variant="h5">
             Create Life Insurance Policy Record
           </Typography>
         </div>
@@ -34,6 +58,8 @@ export default function CreateLifePolicy() {
           <TextField
             className={classes.nameInput}
             label="Name of Policy Holder"
+            value={customerName}
+            onChange={handleNameChange}
           />
         </div>
         <div className={classes.elementDiv}>
@@ -41,6 +67,8 @@ export default function CreateLifePolicy() {
             className={classes.mobileNumber}
             label="Mobile"
             type="number"
+            value={mobileNumber}
+            onChange={handleMobileChange}
           />
         </div>
         <div className={classes.elementDiv}>
@@ -50,9 +78,9 @@ export default function CreateLifePolicy() {
               className={classes.datePicker}
               id="date-picker-dialog"
               label="Date of Commencement"
-              format="MM/dd/yyyy"
-              //value={selectedDate}
-              //onChange={handleDateChange}
+              format="DD/MM/YYYY"
+              value={selectedDate}
+              onChange={date => setDate(date)}
               KeyboardButtonProps={{
                 "aria-label": "change date"
               }}
@@ -60,7 +88,12 @@ export default function CreateLifePolicy() {
           </MuiPickersUtilsProvider>
         </div>
         <div className={classes.elementDiv}>
-          <TextField label="Plan/Term" className={classes.planInput} />
+          <TextField 
+            label="Plan/Term" 
+            className={classes.planInput} 
+            value={plan}
+            onChange = {e => setPlan(e.target.value)}
+            />
         </div>
         <div className={classes.elementDiv}>
           <FormControl variant="outlined" className={classes.formControl}>
@@ -70,16 +103,13 @@ export default function CreateLifePolicy() {
             <Select
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
-              // value={age}
-              // onChange={handleChange}
-              // labelWidth={labelWidth}
+              value={paymentMode}
+              onChange={handlePaymentModeChange}
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              <MenuItem value={10}>Yearly</MenuItem>
+              <MenuItem value={20}>Half-Yearly</MenuItem>
+              <MenuItem value={30}>Quarterly</MenuItem>
+              <MenuItem value={30}>Monthly</MenuItem>
             </Select>
           </FormControl>
         </div>
@@ -88,17 +118,25 @@ export default function CreateLifePolicy() {
             className={classes.installmentPremiumInput}
             label="Installment Premium"
             type="number"
+            value={installmentPremium}
+            onChange={handleInstallmentPremiumChange}
           />
         </div>
         <div className={classes.elementDiv}>
-          <TextField className={classes.gstInput} label="GST" type="number" />
+          <TextField 
+            className={classes.gstInput} 
+            label="GST" 
+            type="number"
+            value={gst}
+            onChange={e => {setGst(e.target.value)}}
+            />
         </div>
         <div className={classes.elementDiv}>
           <TextField
             className={classes.totalPremiumOutput}
             label="Total Premium"
             type="number"
-            value="30"
+            value={installmentPremium + gst}
             disabled
           />
         </div>
@@ -110,11 +148,13 @@ export default function CreateLifePolicy() {
             className={classes.saveLifePolicyBtn}
             color="primary"
             label="Save"
+            accept=".jpg,.jpeg,.png"
           >
             Save
           </Button>
         </div>
       </Paper>
+
     </>
   );
 }
