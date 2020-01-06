@@ -1,5 +1,3 @@
-import { fontFamily } from "@material-ui/system";
-
 const lifePolicyStyles = {
   outerPaper: {
     marginTop: "3vh",
@@ -7,7 +5,7 @@ const lifePolicyStyles = {
   },
   elementDiv: {
     textAlign: "center",
-    marginRight:"30vh"
+    marginRight: "30vh"
   },
   nameInput: {
     minWidth: "40vh"
@@ -41,11 +39,11 @@ const lifePolicyStyles = {
     marginRight: "10vh",
     minWidth: "15vh"
   },
-  paperTitle:{
-    margin:"3vh 0 2vh 3vh",
+  paperTitle: {
+    margin: "3vh 0 2vh 3vh",
     fontWeight: "300",
     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    display:"inline-block"
+    display: "inline-block"
   }
 };
 

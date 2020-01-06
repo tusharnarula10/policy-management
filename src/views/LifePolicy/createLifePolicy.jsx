@@ -1,6 +1,7 @@
 import React from "react";
 // @material-ui/core
 import styles from "./lifePolicyStyles";
+import propTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Paper,
@@ -17,6 +18,7 @@ import {
   KeyboardDatePicker
 } from "@material-ui/pickers";
 import Moment from "@date-io/moment";
+import MaskedInput from "react-text-mask";
 
 const useStyles = makeStyles(styles);
 
@@ -29,22 +31,65 @@ export default function CreateLifePolicy() {
   const [paymentMode, setPaymentMode] = React.useState();
   const [plan, setPlan] = React.useState();
   const [gst, setGst] = React.useState();
-  const handleNameChange = (e) => {
+  const handleNameChange = e => {
     setName(e.target.value);
-  }
-  const handleMobileChange = (e) => {
+  };
+  const handleMobileChange = e => {
     if (e.target.value > 0) {
       setMobileNumber(e.target.value);
     }
-  }
-  const handleInstallmentPremiumChange = (e) => {
+  };
+  const handleInstallmentPremiumChange = e => {
     if (e.target.value > 0) {
       setInstallmentPremium(e.target.value);
     }
-  }
-  const handlePaymentModeChange = (e) => {
+  };
+  const handlePaymentModeChange = e => {
     setPaymentMode(e.target.value);
+  };
+  const handlePlanChange = e => {
+    let x = e.target.value;
+    let index = x.lastIndexOf("-");
+    var test = x.substr(index + 1);
+    if (test.length === 4) x = x + "-";
+
+    setPlan(x);
+  };
+
+  function TextMaskCustom(props) {
+    const { inputRef, ...other } = props;
+
+    return (
+      <MaskedInput
+        {...other}
+        ref={ref => {
+          inputRef(ref ? ref.inputElement : null);
+        }}
+        mask={[
+          "(",
+          /[1-9]/,
+          /\d/,
+          /\d/,
+          ")",
+          " ",
+          /\d/,
+          /\d/,
+          /\d/,
+          "-",
+          /\d/,
+          /\d/,
+          /\d/,
+          /\d/
+        ]}
+        placeholderChar={"\u2000"}
+        showMask
+      />
+    );
   }
+
+  TextMaskCustom.propTypes = {
+    inputRef: propTypes.func.isRequired
+  };
 
   return (
     <>
@@ -88,12 +133,15 @@ export default function CreateLifePolicy() {
           </MuiPickersUtilsProvider>
         </div>
         <div className={classes.elementDiv}>
-          <TextField 
-            label="Plan/Term" 
-            className={classes.planInput} 
+          <TextField
+            label="Plan/Term"
+            className={classes.planInput}
             value={plan}
-            onChange = {e => setPlan(e.target.value)}
-            />
+            onChange={handlePlanChange}
+            InputProps={{
+              inputComponent: TextMaskCustom
+            }}
+          />
         </div>
         <div className={classes.elementDiv}>
           <FormControl variant="outlined" className={classes.formControl}>
@@ -123,13 +171,15 @@ export default function CreateLifePolicy() {
           />
         </div>
         <div className={classes.elementDiv}>
-          <TextField 
-            className={classes.gstInput} 
-            label="GST" 
+          <TextField
+            className={classes.gstInput}
+            label="GST"
             type="number"
             value={gst}
-            onChange={e => {setGst(e.target.value)}}
-            />
+            onChange={e => {
+              setGst(e.target.value);
+            }}
+          />
         </div>
         <div className={classes.elementDiv}>
           <TextField
@@ -140,21 +190,28 @@ export default function CreateLifePolicy() {
             disabled
           />
         </div>
-        <div className={classes.elementDiv}>
-          <TextField className="fileInput" label="Policy Copy" type="file" />
+        <div
+          style={{ marginLeft: "10vh", marginTop: "3vh" }}
+          className={classes.elementDiv}
+        >
+          <input
+            color="primary"
+            className="fileInput"
+            label="Policy Copy"
+            type="file"
+            accept=".jpg,.jpeg,.png, .pdf, doc, .docx"
+          />
         </div>
         <div style={{ "text-align": "right" }}>
           <Button
             className={classes.saveLifePolicyBtn}
             color="primary"
             label="Save"
-            accept=".jpg,.jpeg,.png"
           >
             Save
           </Button>
         </div>
       </Paper>
-
     </>
   );
 }
