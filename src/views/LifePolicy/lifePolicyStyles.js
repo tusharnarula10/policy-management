@@ -18,7 +18,7 @@ const lifePolicyStyles = {
     width: "40vh"
   },
   formControl: {
-    marginTop: "2vh",
+    marginTop: "1vh",
     minWidth: "40vh"
   },
   installmentPremiumInput: {
@@ -44,6 +44,9 @@ const lifePolicyStyles = {
     fontWeight: "300",
     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
     display: "inline-block"
+  },
+  inputLabel: {
+    marginRight: "1vh"
   }
 };
 

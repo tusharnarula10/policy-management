@@ -1,7 +1,6 @@
 import React from "react";
 // @material-ui/core
 import styles from "./lifePolicyStyles";
-import propTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Paper,
@@ -11,14 +10,14 @@ import {
   MenuItem,
   Button,
   Typography,
-  FormControl
+  FormControl,
+  Input
 } from "@material-ui/core";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
 } from "@material-ui/pickers";
 import Moment from "@date-io/moment";
-import MaskedInput from "react-text-mask";
 
 const useStyles = makeStyles(styles);
 
@@ -48,47 +47,7 @@ export default function CreateLifePolicy() {
     setPaymentMode(e.target.value);
   };
   const handlePlanChange = e => {
-    let x = e.target.value;
-    let index = x.lastIndexOf("-");
-    var test = x.substr(index + 1);
-    if (test.length === 4) x = x + "-";
-
-    setPlan(x);
-  };
-
-  function TextMaskCustom(props) {
-    const { inputRef, ...other } = props;
-
-    return (
-      <MaskedInput
-        {...other}
-        ref={ref => {
-          inputRef(ref ? ref.inputElement : null);
-        }}
-        mask={[
-          "(",
-          /[1-9]/,
-          /\d/,
-          /\d/,
-          ")",
-          " ",
-          /\d/,
-          /\d/,
-          /\d/,
-          "-",
-          /\d/,
-          /\d/,
-          /\d/,
-          /\d/
-        ]}
-        placeholderChar={"\u2000"}
-        showMask
-      />
-    );
-  }
-
-  TextMaskCustom.propTypes = {
-    inputRef: propTypes.func.isRequired
+    setPlan(e.target.value);
   };
 
   return (
@@ -108,13 +67,16 @@ export default function CreateLifePolicy() {
           />
         </div>
         <div className={classes.elementDiv}>
-          <TextField
-            className={classes.mobileNumber}
-            label="Mobile"
-            type="number"
-            value={mobileNumber}
-            onChange={handleMobileChange}
-          />
+          <FormControl variant="outlined" className={classes.formControl}>
+            <InputLabel className={classes.inputLabel}>Mobile</InputLabel>
+            <Input
+              className={classes.mobileNumber}
+              label="Mobile"
+              type="number"
+              value={mobileNumber}
+              onChange={e => setMobileNumber(e.target.value)}
+            />
+          </FormControl>
         </div>
         <div className={classes.elementDiv}>
           <MuiPickersUtilsProvider utils={Moment}>
@@ -133,15 +95,15 @@ export default function CreateLifePolicy() {
           </MuiPickersUtilsProvider>
         </div>
         <div className={classes.elementDiv}>
-          <TextField
-            label="Plan/Term"
-            className={classes.planInput}
-            value={plan}
-            onChange={handlePlanChange}
-            InputProps={{
-              inputComponent: TextMaskCustom
-            }}
-          />
+          <FormControl variant="outlined" className={classes.formControl}>
+            <InputLabel>Plan/Term</InputLabel>
+            <Input
+              label="Plan/Term"
+              className={classes.planInput}
+              value={plan}
+              onChange={handlePlanChange}
+            />
+          </FormControl>
         </div>
         <div className={classes.elementDiv}>
           <FormControl variant="outlined" className={classes.formControl}>
@@ -162,31 +124,41 @@ export default function CreateLifePolicy() {
           </FormControl>
         </div>
         <div className={classes.elementDiv}>
-          <TextField
-            className={classes.installmentPremiumInput}
-            label="Installment Premium"
-            type="number"
-            value={installmentPremium}
-            onChange={handleInstallmentPremiumChange}
-          />
+          <FormControl variant="outlined" className={classes.formControl}>
+            <InputLabel id="demo-simple-select-outlined-label">
+              Installment Premium
+            </InputLabel>
+            <Input
+              className={classes.installmentPremiumInput}
+              label="Installment Premium"
+              type="number"
+              value={installmentPremium}
+              onChange={e => {
+                setInstallmentPremium(e.target.value);
+              }}
+            />
+          </FormControl>
         </div>
         <div className={classes.elementDiv}>
-          <TextField
-            className={classes.gstInput}
-            label="GST"
-            type="number"
-            value={gst}
-            onChange={e => {
-              setGst(e.target.value);
-            }}
-          />
+          <FormControl variant="outlined" className={classes.formControl}>
+            <InputLabel id="demo-simple-select-outlined-label">GST</InputLabel>
+            <Input
+              className={classes.gstInput}
+              label="GST"
+              type="number"
+              value={gst}
+              onChange={e => {
+                setGst(e.target.value);
+              }}
+            />
+          </FormControl>
         </div>
         <div className={classes.elementDiv}>
           <TextField
             className={classes.totalPremiumOutput}
             label="Total Premium"
             type="number"
-            value={installmentPremium + gst}
+            value={+gst + +installmentPremium}
             disabled
           />
         </div>
