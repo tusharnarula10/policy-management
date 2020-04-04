@@ -1,0 +1,12 @@
+General Insurance
+
+Company Name
+Type of Insurance
+Name of policy holder
+policy number
+mobile
+date of commencement
+date of expiry
+premium
+gst
+total    
